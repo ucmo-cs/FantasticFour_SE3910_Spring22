@@ -1,5 +1,7 @@
 package com.example.CommerceBankProject.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 import lombok.*;
 
@@ -23,7 +25,7 @@ public class OpenSource {
     @NotNull
     private String versionNumber;
     private Date dateRequested;
-    private boolean status;
+    private Integer status; //0 for pending, 1 for accepted, -1 for denied
     private Date dateFinal;
     @ManyToOne
     @JoinColumn(name = "account_id", nullable = false, updatable = false)

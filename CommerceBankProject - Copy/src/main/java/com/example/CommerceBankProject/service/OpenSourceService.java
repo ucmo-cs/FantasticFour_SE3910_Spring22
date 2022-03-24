@@ -27,20 +27,33 @@ public class OpenSourceService {
                 -> new ClassNotFoundException("No account with id: " + accountId));
         openSource.setAccount(acc);
         openSource.setDateRequested(date);
-        openSource.setStatus(false);
+        openSource.setStatus(0);
         return openSourceRepository.save(openSource);
     }
     @Transactional
-    public Map<String, Boolean> deleteOpenSource(@PathVariable(value = "id") Long openSourceId)
+    public Map<String, Boolean> deleteOpenSource(@PathVariable(value = "id") Long openSourceId, Long accId)
             throws ClassNotFoundException {
         OpenSource openSource = openSourceRepository.findById(openSourceId)
                 .orElseThrow(() -> new ClassNotFoundException("Open Source not found for this id :: " + openSourceId));
-        openSourceRepository.delete(openSource);
+        Account account = accountRepository.getById(accId);
         Map<String, Boolean> response = new HashMap<>();
-        response.put("Open source deleted", Boolean.TRUE);
+        if (openSource.getid() == account) {
+            openSourceRepository.delete(openSource);
+            response.put("Open source deleted", Boolean.TRUE);
+        }
+        else
+            response.put("Open source not deleted", Boolean.FALSE);
         return response;
     }
+
     public List<OpenSource> findAllOpenSource(){
         return openSourceRepository.findAll();
+    }
+
+    public List<OpenSource> listInProgressOpenSource(@PathVariable int status) throws Exception {
+        if(status <= 1 && status >= -1)
+            return openSourceRepository.findAllByStatus(status);
+        else
+            throw new Exception("Arguments out of bounds");
     }
 }

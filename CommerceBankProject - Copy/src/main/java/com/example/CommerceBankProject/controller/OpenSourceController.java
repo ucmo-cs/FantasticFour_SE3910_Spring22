@@ -14,6 +14,9 @@ public class OpenSourceController {
     @GetMapping("/open_sources")
     public ResponseEntity<?> findAllOpenSources(){return new ResponseEntity<>
             (openSourceService.findAllOpenSource(), HttpStatus.OK);}
+    @GetMapping("/open_sources/{status}")
+    public ResponseEntity<?> findAllOpenSourcesStatus(@PathVariable int status) throws Exception
+    {return new ResponseEntity<>(openSourceService.listInProgressOpenSource(status), HttpStatus.OK);}
     @PostMapping("/open_sources/create/{accountId}")
     public ResponseEntity<?> saveOpenSource
             (@RequestBody OpenSource openSource, @PathVariable String accountId)
@@ -21,4 +24,12 @@ public class OpenSourceController {
         return new ResponseEntity<>(openSourceService.createOpenSource(openSource,
                         Long.valueOf(accountId)), HttpStatus.CREATED);
     }
+    @DeleteMapping("/open_sources/delete/{projnumber}/{accnumber}")
+    public ResponseEntity<?> deleteOpenSource
+            (@PathVariable("projnumber") Long openSourceId,
+             @PathVariable("accnumber") Long accId) throws ClassNotFoundException {
+        return new ResponseEntity<>(openSourceService.deleteOpenSource
+                (Long.valueOf(openSourceId),Long.valueOf(accId)), HttpStatus.OK);
+    }
+
 }
