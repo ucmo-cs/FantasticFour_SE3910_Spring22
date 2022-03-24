@@ -1,7 +1,6 @@
 package com.example.CommerceBankProject.controller;
 
 import com.example.CommerceBankProject.domain.Account;
-import com.example.CommerceBankProject.domain.OpenSource;
 import com.example.CommerceBankProject.service.AccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -28,19 +27,6 @@ public class AccountController {
     public ResponseEntity<?> findAll(){
         return new ResponseEntity<>
                 (accountService.findAll(), HttpStatus.OK);
-    }
-    //
-    //beginning of opensource
-    //
-    @GetMapping("/open_sources")
-    public ResponseEntity<?> findAllOpenSources(){return new ResponseEntity<>
-            (accountService.findAllOpenSource(), HttpStatus.OK);}
-    @PostMapping("/account/open_sources/{accountId}")
-    public ResponseEntity<?> saveOpenSource
-            (@RequestBody OpenSource openSource,@PathVariable String accountId){
-
-        return new ResponseEntity<>
-                (accountService.createOpenSource(openSource, Long.valueOf(accountId)), HttpStatus.CREATED);
     }
 }
 

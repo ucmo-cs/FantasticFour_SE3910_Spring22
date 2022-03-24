@@ -26,6 +26,9 @@ public class Account {
     private String lastName;
     private boolean usertype;
 
-    @OneToMany(mappedBy = "account")
+    @OneToMany(targetEntity = com.example.CommerceBankProject.
+            domain.OpenSource.class,mappedBy = "account")
     private Set<OpenSource> openSources = new HashSet<>();
+    public Set getOpenSources(){return openSources;}
+
 }
